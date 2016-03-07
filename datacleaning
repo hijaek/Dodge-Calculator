@@ -1,0 +1,36 @@
+import pandas as pd
+import statsmodels.api as sm
+import pylab as pl
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+df = pd.read_csv("lol_df.csv")
+
+## please add index. new number for every 5 rows
+
+
+loldf= pd.DataFrame()
+#loldf['match_id']= [df['match_id'][i] for i in range(1,len(df['match_id']), 5)]
+loldf['winner']=[df['winner'][i] for i in range(0,len(df), 5)]
+
+#creating dummy variable columns
+side_dummy = pd.get_dummies([df['side'][i] for i in range(1,len(df), 5)], prefix='side')
+loldf[[i for i in side_dummy.columns]] = side_dummy
+
+#adding rest of columns
+loldf[[i for i in df.columns][6:]]=df[[i for i in df.columns]].ix[:,6:]
+
+
+#####
+##with the new index, i can group by the index and sum them( which will be five
+finaldf= pd.DataFrame()
+#finaldf[[i for i in loldf.columns]] = 
+
+#loldf.columns[0]
+#finaldf[loldf.columns[0]]= loldf[[0]]
+for i in range(0, len(loldf.columns)):
+    finaldf[loldf.columns[i]]= [loldf[[j for j in loldf.columns][i]][k] for k in range(0, len(loldf),2)]
+
+#finaldf.head(10)
+finaldf=loldf.iloc[::2, :]
