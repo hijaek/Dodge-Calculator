@@ -1,0 +1,41 @@
+from cassiopeia import riotapi
+from cassiopeia.core import *
+from cassiopeia.dto import *
+from cassiopeia.type import *
+from cassiopeia.type.core.common import *
+from cassiopeia.type.core.common import LoadPolicy
+import random
+import cassiopeia.riotapi
+import cassiopeia.dto.statsapi
+import cassiopeia.core.requests
+import cassiopeia.type.core.common
+import cassiopeia.type.core.stats
+import time
+
+import numpy as np
+import pandas as pd
+riotapi.set_rate_limit(3000, 10)
+riotapi.set_load_policy(LoadPolicy.eager)
+riotapi.set_load_policy(LoadPolicy.lazy)
+key="abcd"
+riotapi.set_region("NA")
+riotapi.set_api_key(key)
+
+def extract_participant(sum_name):
+    quetype=Queue.ranked_solo
+    myseason=Season.season_5
+    summoner = riotapi.get_summoner_by_name(sum_name)
+    mygamelist=riotapi.get_match_list(summoner, num_matches=50, ranked_queues=quetype, seasons=myseason) #matchlist objects
+    mydict= dict()
+
+    for game in mygamelist:
+        mydict[game.id]=[]
+        for i in range(0,10):
+            participant=game.match().participants[i]
+            champstat=participant.summoner.ranked_stats(season=myseason)[participant.champion]
+            participant_list=[]
+            participant_list.append(participant.summoner_name)
+            participant_list.append(participant.side)
+    return mydict
+
+d = pd.Series(extract_participant('dyrus'))
