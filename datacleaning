@@ -1,3 +1,12 @@
+####in this file, I want to create a new dataframe to be modeled
+####
+####steps
+####  1) First pull the original csv file created from extract_part function and add team index
+####  2) Make pieces that will go in to the final table (each will have 800 rows. 400 games * 2 teams per game)
+####  3) Join the pieces into a final table. (800 rows)
+####  4) Partition the final table into two, so that each row becomes independent of each other
+
+
 import pandas as pd
 import statsmodels.api as sm
 import pylab as pl
@@ -5,32 +14,66 @@ import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
 
+########################## 1 ##########################
+
+##extracted data
 df = pd.read_csv("lol_df.csv")
 
-## please add index. new number for every 5 rows
+index_col=[]
+for i in range(0, len(df)/5):
+    index_col.append(i)
+    index_col.append(i)
+    index_col.append(i)
+    index_col.append(i)
+    index_col.append(i)
+    
+df['index']=index_col
+df.head()
+
+########################## 2 ##########################
+
+##group by team and summing the variables
+partitioned=df.iloc[::,5:]
+summed=partitioned.groupby('index').sum()
+#print summed.head()
+#print len(summed.columns)
+
+##small test on how to differently partition table
+#partitioned=df[:].ix[:,5:]
+#summed=partitioned.groupby('index').sum()
+#print summed.head()
+#print len(summed.columns)
 
 
+########################## 3 ##########################
+
+#now we want a final df
 loldf= pd.DataFrame()
-#loldf['match_id']= [df['match_id'][i] for i in range(1,len(df['match_id']), 5)]
+
+#casting the response variable column into integer
 loldf['winner']=[df['winner'][i] for i in range(0,len(df), 5)]
 
 #creating dummy variable columns
 side_dummy = pd.get_dummies([df['side'][i] for i in range(1,len(df), 5)], prefix='side')
 loldf[[i for i in side_dummy.columns]] = side_dummy
+#len(df.columns)
 
-#adding rest of columns
-loldf[[i for i in df.columns][6:]]=df[[i for i in df.columns]].ix[:,6:]
+#adding the group-sum data.
+loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
+#loldf.tail()
+
+####TO ADD A NEW COLUMN, ADD HERE ###
 
 
-#####
-##with the new index, i can group by the index and sum them( which will be five
-finaldf= pd.DataFrame()
-#finaldf[[i for i in loldf.columns]] = 
 
-#loldf.columns[0]
-#finaldf[loldf.columns[0]]= loldf[[0]]
-for i in range(0, len(loldf.columns)):
-    finaldf[loldf.columns[i]]= [loldf[[j for j in loldf.columns][i]][k] for k in range(0, len(loldf),2)]
+########################## 4 ##########################
 
-#finaldf.head(10)
-finaldf=loldf.iloc[::2, :]
+#####partitioning the datafile into two, so that each rows are independent
+finaldf1=loldf.iloc[::2, :]
+#finaldf1.head()
+finaldf2=loldf.iloc[1::2, :]
+#finaldf2.head()
+
+
+#done!
+################################################################################################################################
