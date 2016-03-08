@@ -143,8 +143,10 @@ def extract_participant_two(sum_name):
                 participant_list=[]
                 pergame=champstat.games_played
                 participant_list.append(i)
-                participant_list.append(str(game))
+                participant_list.append(game.id)
                 participant_list.append(participant.stats.win)
+                participant_list.append(participant.side.name)
+                participant_list.append(participant.timeline.role)
                 participant_list.append(pergame)
                 participant_list.append(champstat.wins)
                 participant_list.append(champstat.losses)
