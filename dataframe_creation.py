@@ -79,12 +79,10 @@ finaldf2=loldf.iloc[1::2, :]
 
 
 #####write into csv
-with open('finaldf1', 'w', encoding='UTF-8', newline='') as testfile:
-            a = csv.writer(testfile, delimiter=',')
-            a.writerows(finaldf1)
 
-with open('finaldf2', 'w', encoding='UTF-8', newline='') as testfile:
-            a = csv.writer(testfile, delimiter=',')
-            a.writerows(finaldf2)
-#done!
+
+finaldf1.to_csv('finaldf1')
+finaldf2.to_csv('finaldf2')
+
+#yay done!
 ################################################################################################################################
