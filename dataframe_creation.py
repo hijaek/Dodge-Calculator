@@ -4,7 +4,7 @@
 ####  1) First pull the original csv file created from extract_part function and add team index
 ####  2) Make pieces that will go in to the final table (each will have 800 rows. 400 games * 2 teams per game)
 ####  3) Join the pieces into a final table. (800 rows)
-####  4) Partition the final table into two, so that each row becomes independent of each other
+####  4) Partition the final table into two, so that each row becomes independent of each other and write csv
 
 #### Prereq
 ####  1) csv file from extract_part function
@@ -78,5 +78,13 @@ finaldf2=loldf.iloc[1::2, :]
 #finaldf2.head()
 
 
+#####write into csv
+with open('finaldf1', 'w', encoding='UTF-8', newline='') as testfile:
+            a = csv.writer(testfile, delimiter=',')
+            a.writerows(finaldf1)
+
+with open('finaldf2', 'w', encoding='UTF-8', newline='') as testfile:
+            a = csv.writer(testfile, delimiter=',')
+            a.writerows(finaldf2)
 #done!
 ################################################################################################################################
