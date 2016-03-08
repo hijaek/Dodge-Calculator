@@ -1,10 +1,13 @@
-####I want to create a new dataframe to be modeled
+#### I want to create a new dataframe to be modeled
 ####
-####steps
+#### Steps
 ####  1) First pull the original csv file created from extract_part function and add team index
 ####  2) Make pieces that will go in to the final table (each will have 800 rows. 400 games * 2 teams per game)
 ####  3) Join the pieces into a final table. (800 rows)
 ####  4) Partition the final table into two, so that each row becomes independent of each other
+
+#### Prereq
+####  1) csv file from extract_part function
 
 
 import pandas as pd
