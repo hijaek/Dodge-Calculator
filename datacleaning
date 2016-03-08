@@ -1,4 +1,4 @@
-####in this file, I want to create a new dataframe to be modeled
+####I want to create a new dataframe to be modeled
 ####
 ####steps
 ####  1) First pull the original csv file created from extract_part function and add team index
