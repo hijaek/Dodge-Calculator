@@ -22,30 +22,56 @@ import matplotlib.pyplot as plt
 ##extracted data
 df = pd.read_csv("lol_df.csv")
 
-index_col=[]
-for i in range(0, len(df)/5):
-    index_col.append(i)
-    index_col.append(i)
-    index_col.append(i)
-    index_col.append(i)
-    index_col.append(i)
-    
-df['index']=index_col
-df.head()
+
+def addindex(dfr):
+    index_col=[]
+    for i in range(0, len(dfr)/5):
+        index_col.append(i)
+        index_col.append(i)
+        index_col.append(i)
+        index_col.append(i)
+        index_col.append(i)
+    dfr['index']=index_col
+
+#addindex(df)
+#addindex(hikari)
 
 ########################## 2 ##########################
 
 ##group by team and summing the variables
-partitioned=df.iloc[::,5:]
-summed=partitioned.groupby('index').sum()
-#print summed.head()
-#print len(summed.columns)
+def hijaeframe(dfr):
+    ##groupby index and sum
+    partitioned=dfr.iloc[::,5:]
+    summed=partitioned.groupby('index').sum()
+    
+    #final dataframe
+    loldf= pd.DataFrame()
+    loldf['winner']=[dfr['winner'][i] for i in range(0,len(dfr), 5)]
+    
+    #side - dummy variable
+    side_dummy = pd.get_dummies([dfr['side_1'][i] for i in range(1,len(dfr), 5)], prefix='side')
+    loldf[[i for i in side_dummy.columns]] = side_dummy
+    
+    loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
+    loldf['newwin']=(loldf['win']/loldf['game_cnt'])*100
+    loldf['topsin']=loldf['tpg']*(loldf['kpg']+loldf['apg'])
+    loldf['ggg']=( (loldf['ddpg']-(loldf['cs']*350)) / (loldf['dpg']) )
+    return loldf
 
-##small test on how to differently partition table
-#partitioned=df[:].ix[:,5:]
-#summed=partitioned.groupby('index').sum()
-#print summed.head()
-#print len(summed.columns)
+model_blue = hijaeframe(df).iloc[::2, :]
+
+
+
+def hijaelogr(dfr):
+    logr = sm.Logit(dfr['winner'], dfr[['newwin','topsin','kpg','dpg','apg','ggg']]) #:10]|blue.columns[14:]])
+    return logr
+
+
+###  make this into class-objects later
+### 
+hijaem = hijaelogr(model_blue).fit()
+print hijaem.summary()
+print np.exp(hijaem.params)
 
 
 ########################## 3 ##########################
@@ -72,17 +98,26 @@ loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
 ########################## 4 ##########################
 
 #####partitioning the datafile into two, so that each rows are independent
-finaldf1=loldf.iloc[::2, :]
-#finaldf1.head()
-finaldf2=loldf.iloc[1::2, :]
-#finaldf2.head()
+loldf= pd.DataFrame()
 
 
-#####write into csv
+loldf['winner']=[df['winner'][i] for i in range(0,len(df), 5)]
+#creating dummy variable columns
 
+side_dummy1 = pd.get_dummies([df['side_1'][i] for i in range(1,len(df), 5)], prefix='side1')
+#side_dummy2 = pd.get_dummies([df['side_2'][i] for i in range(1,len(df), 5)], prefix='side2')
 
-finaldf1.to_csv('finaldf1')
-finaldf2.to_csv('finaldf2')
+loldf[[i for i in side_dummy1.columns]] = side_dummy1
+#loldf[[i for i in side_dummy2.columns]] = side_dummy2
 
+len(df.columns)
+#adding rest of columns
+loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
+
+loldf['newwin']=(loldf['win']/loldf['game_cnt'])*100
+loldf['topsin']=loldf['tpg']*(loldf['kpg']+loldf['apg'])
+loldf['dpd']=( (loldf['ddpg']-(loldf['cs']*900) ) / (loldf['dpg']) ) / 1000
+
+loldf.head(2)
 #yay done!
 ################################################################################################################################
