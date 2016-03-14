@@ -62,62 +62,11 @@ model_blue = hijaeframe(df).iloc[::2, :]
 
 
 
+##logit model test
 def hijaelogr(dfr):
     logr = sm.Logit(dfr['winner'], dfr[['newwin','topsin','kpg','dpg','apg','ggg']]) #:10]|blue.columns[14:]])
     return logr
 
 
-###  make this into class-objects later
-### 
-hijaem = hijaelogr(model_blue).fit()
-print hijaem.summary()
-print np.exp(hijaem.params)
-
-
-########################## 3 ##########################
-
-#now we want a final df
-loldf= pd.DataFrame()
-
-#casting the response variable column into integer
-loldf['winner']=[df['winner'][i] for i in range(0,len(df), 5)]
-
-#creating dummy variable columns
-side_dummy = pd.get_dummies([df['side'][i] for i in range(1,len(df), 5)], prefix='side')
-loldf[[i for i in side_dummy.columns]] = side_dummy
-#len(df.columns)
-
-#adding the group-sum data.
-loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
-#loldf.tail()
-
-####TO ADD A NEW COLUMN, ADD HERE ###
-
-
-
-########################## 4 ##########################
-
-#####partitioning the datafile into two, so that each rows are independent
-loldf= pd.DataFrame()
-
-
-loldf['winner']=[df['winner'][i] for i in range(0,len(df), 5)]
-#creating dummy variable columns
-
-side_dummy1 = pd.get_dummies([df['side_1'][i] for i in range(1,len(df), 5)], prefix='side1')
-#side_dummy2 = pd.get_dummies([df['side_2'][i] for i in range(1,len(df), 5)], prefix='side2')
-
-loldf[[i for i in side_dummy1.columns]] = side_dummy1
-#loldf[[i for i in side_dummy2.columns]] = side_dummy2
-
-len(df.columns)
-#adding rest of columns
-loldf[[i for i in summed.columns]]=summed[[i for i in summed.columns]]
-
-loldf['newwin']=(loldf['win']/loldf['game_cnt'])*100
-loldf['topsin']=loldf['tpg']*(loldf['kpg']+loldf['apg'])
-loldf['dpd']=( (loldf['ddpg']-(loldf['cs']*900) ) / (loldf['dpg']) ) / 1000
-
-loldf.head(2)
 #yay done!
 ################################################################################################################################
