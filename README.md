@@ -4,7 +4,7 @@ Purpose
 
 My client plays 5v5 online game and desperately needs to win
 
-The client is teamed with 4 random teammates and able to view their statistics of previous games
+The client is teamed with 4 other random teammates and is able to view teammates' statistics
 
 I want to know, given the statistics of the teammates, what is the probabilty of winning the game?
 
