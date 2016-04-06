@@ -1,7 +1,8 @@
 ## I previously used continuous scripts to model and test. 
 ## But I find this method increasingly inefficient mainly because it's not scalable
 ## I want to do more wildly fun tests and analysis in bigger scales
-## This file creates a class "model" to provide a logit model object for analysis
+## And after all, my end goal is to create a tool, not to print a number.
+## This code creates a class "model" to provide a logit model object, which will resolve most of my concern
 
 import numpy as np
 import pandas as pd
@@ -22,7 +23,8 @@ from sklearn.datasets import make_classification
 
 class model(object):
     
-    ###defining dataframe, y & X
+    #defining dataframe, y, X
+    #df: dataframe object
     def __init__(self, df):
         self.df = df
         self.y , self.X = dmatrices('winner ~game_cnt + win + loss + win_rate+ kda + kpg + \
@@ -40,6 +42,7 @@ class model(object):
     
     
     #make a df that could provide info for accuracy prediction depending on 'percentage' threshold
+    #percentage: float input
     def thrsh_df(self, percentage):
         to55=[]
         for score in model_obj.predict_proba(self.X)[:,1]:
@@ -57,7 +60,8 @@ class model(object):
 
     
     #returns the accuracy of the prediction depending on 'percentage' threshold
-    #win arguement takes 1 for win pred., 0 for loss pred.
+    #win: takes 1 for win pred., 0 for loss pred.
+    #percentage: float input
     def thrsh_accuracy(self, percentage, win):
         thrsh_df(percentage, win)
 
@@ -72,6 +76,8 @@ class model(object):
         return float(popo)/float(popo+pone)
 
     #returns the accuracy score of the test set onto the model you fit.
+    #y2: flattened array
+    #x2: dataframe of x variables
     def test_score(self, x2, y2):
         return self.model.score(x2, y2)
         
