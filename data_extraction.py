@@ -4,7 +4,7 @@
 ####  1) Extract list of objects of games I've played
 ####  2) Loop to partition list of games, to prevent data loss due to random api errors 
 ####  3) creating a list of stats of each participant(i)
-####  4) writing csv files of 15 games of 150 participants
+####  4) writing csv files of 15 games of 150 participants for how many ever loops
 
 
 from cassiopeia import riotapi
