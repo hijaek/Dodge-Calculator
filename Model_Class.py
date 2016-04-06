@@ -1,3 +1,8 @@
+## I previously used continuous scripts to model and test. 
+## But I find this method increasingly inefficient mainly because it's not scalable
+## I want to do more wildly fun tests and analysis in bigger scales
+## This file creates a class "model" to provide a logit model object for analysis
+
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
