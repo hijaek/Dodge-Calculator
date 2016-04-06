@@ -74,4 +74,8 @@ class model(object):
     #returns the accuracy score of the test set onto the model you fit.
     def test_score(self, x2, y2):
         return self.model.score(x2, y2)
-    
+        
+        
+        
+        
+    #more to come...
