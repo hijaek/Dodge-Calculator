@@ -2,7 +2,7 @@
 ## But I find this method increasingly inefficient mainly because it's not scalable
 ## I want to do more wildly fun tests and analysis in bigger scales
 ## And after all, my end goal is to create a tool, not to print a number.
-## This code creates a class "model" to provide a logit model object, which will resolve most of my concern
+## This code creates a class "model" to provide a logit model object, which will resolve most of my concern.
 
 import numpy as np
 import pandas as pd
