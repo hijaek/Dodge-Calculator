@@ -1,14 +1,16 @@
 # Dodge-Calculator
 
-Purpose
+Summary
 
-My client plays 5v5 online game and desperately needs to win
+My client plays 5v5 online game and desperately needs to win.
 
-The client is teamed with 4 other random teammates and is able to view teammates' statistics
+He is teamed with 4 randomly chosen online teammates and is able to view their historical performance before the game starts.
 
-I want to know, given the statistics of the teammates, what is the probabilty of winning the game?
+Given the statistics of the teammates, what is the probabilty of winning the game?
 
-Calculate the probability of winning and evaluates whether you should play or dodge the game
+If his chance is 'low', he wants to leave the team and group with another set of teammates.
 
-If his chance is low, he wants to leave the team and look for other teammates
+Calculate the probability of winning before the game starts and evaluate whether the client should play or leave the game.
+
+
 
